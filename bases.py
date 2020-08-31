@@ -9,6 +9,9 @@ import string
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
 
+# Find position of each digit, multiply digit by base raised to the power of position, add results
+# break digit string into individual digits, right(0) to left, 
+# .split(), .reverse()
 
 def decode(digits, base):
     """Decode given digits in given base to number in base 10.
@@ -17,12 +20,45 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+
+    # TODO: Decode digits from binary (base 2)       
+    # decode("100", 2) -> ?
+    # digits = digits[::-1]
+
+    # sum = 0
+    # for i in range(len(digits)):
+    #     result = int(digits[i]) * base ** i
+    #     print("digits: ", digits[i])
+    #     sum += result
+    # return sum
+
+    # TODO: Decode digits from hexadecimal (base 16)        # hex_digits = '0123456789abcdefABCDEF'
+    # decode("e", 16) -> ?
+    # digits = digits[::-1]
+
+    # hex_digits = string.hexdigits
+    # sum = 0
+    # digits = digits.lower()
+
+    # for i in range(len(digits)):
+    #     result = hex_digits.index(digits[i]) * base ** i
+    #     print("digits: ", digits[i])
+    #     sum += result
+    # return sum 
+
+    # TODO: Decode digits from any base (2 up to 36)        # hex_digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    # decode("46", 36) -> ?
+    digits = digits[::-1]
+
+    hex_digits = string.hexdigits
+    sum = 0
+    digits = digits.lower()
+
+    for i in range(len(digits)):
+        result = hex_digits.index(digits[i]) * base ** i
+        print("digits: ", digits[i])
+        sum += result
+    return sum 
 
 
 def encode(number, base):
@@ -34,6 +70,12 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
+    # get remainders/divisors
+    # loop the repeated division, where to stop?
+    # return final number as string
+
+    # TODO: Encode number in binary (base 2)
+    # encode(4, 2) -> ?
     # TODO: Encode number in binary (base 2)
     # ...
     # TODO: Encode number in hexadecimal (base 16)
@@ -41,7 +83,24 @@ def encode(number, base):
     # TODO: Encode number in any base (2 up to 36)
     # ...
 
+    result = ''
+    while number > 0:
+        # number = number // base
+        # remainder = number % base 
+        number, remainder = divmod(number,base)
 
+        # remainder is greater or equal to 10 then add in the 
+        if remainder >= 10:
+            # remainder + 87 because of asccii values
+            result += chr(remainder + 87)
+        else:
+            # remainder is less than 10 so it displays the asccis values
+            result += str(remainder)
+    # return result reversed because hexidecimal result comes out reversed
+    return result[::-1]
+    
+
+# convert("101", 2, 16)
 def convert(digits, base1, base2):
     """Convert given digits in base1 to digits in base2.
     digits: str -- string representation of number (in base1)
@@ -59,6 +118,9 @@ def convert(digits, base1, base2):
     # ...
     # TODO: Convert digits from any base to any base (2 up to 36)
     # ...
+    base10result = decode(digits, base1)
+    finalresult = encodeI(base10result, base2)
+    return finalresult
 
 
 def main():
@@ -78,4 +140,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+
+    # print(decode("100", 2))
+    # print(decode("f", 16)) 
+    # print(decode("1a", 36)) 
+
+    print("")
+
+    # print(encode(4,2)) 
+    # print(encode(15,16)) 
+    # print(encode(46,36)) 
