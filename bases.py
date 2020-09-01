@@ -50,12 +50,12 @@ def decode(digits, base):
     # decode("46", 36) -> ?
     digits = digits[::-1]
 
-    hex_digits = string.hexdigits
+    all_digits = "0123456789" +string.ascii_lowercase
     sum = 0
     digits = digits.lower()
 
     for i in range(len(digits)):
-        result = hex_digits.index(digits[i]) * base ** i
+        result = all_digits.index(digits[i]) * base ** i
         print("digits: ", digits[i])
         sum += result
     return sum 
@@ -87,11 +87,13 @@ def encode(number, base):
     while number > 0:
         # number = number // base
         # remainder = number % base 
+        #  7(b10) -> (b2) 7/2 = 3 r1, 3/2 = 1 r1, 1/2 = r1
         number, remainder = divmod(number,base)
 
         # remainder is greater or equal to 10 then add in the 
         if remainder >= 10:
             # remainder + 87 because of asccii values
+            # matches number to corresponding letter in hex
             result += chr(remainder + 87)
         else:
             # remainder is less than 10 so it displays the asccis values
@@ -119,7 +121,7 @@ def convert(digits, base1, base2):
     # TODO: Convert digits from any base to any base (2 up to 36)
     # ...
     base10result = decode(digits, base1)
-    finalresult = encodeI(base10result, base2)
+    finalresult = encode(base10result, base2)
     return finalresult
 
 
@@ -151,3 +153,6 @@ if __name__ == '__main__':
     # print(encode(4,2)) 
     # print(encode(15,16)) 
     # print(encode(46,36)) 
+
+    print(convert("101", 2, 16))
+    print(convert("1010", 2, 16))
